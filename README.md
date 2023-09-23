@@ -8,25 +8,25 @@ Create a URLSession through Tor and access .onion websites. This Swift Package i
 
 ### Create a instance
 
-´´´swift
+```swift
 let tor = SwiftTor()
-´´´
+```
 
 ### Check the connection
 
-´´´swift
+```swift
 if tor.state == .connected {
     // connected
 }else {
     // not connected
 }
-´´´
+```
 
 ### Do a http request on a onion address
 
-´´´swift
+```swift
 let onionAddress = "http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/api/v1/fees/recommended"
 let url = URL(string: onionAddress)!
 let request = URLRequest(url: url)
 let a = try! await tor.request(request: request)
-´´´
+```
