@@ -6,7 +6,7 @@ public class SwiftTor: ObservableObject {
     
 //    @Published public var state = TorState.none
     
-    var state: TorState {
+    public var state: TorState {
         tor.state
     }
     
