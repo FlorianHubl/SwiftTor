@@ -2,7 +2,7 @@ import Tor
 
 @available(iOS 13.0, *)
 public class SwiftTor: ObservableObject {
-    private let tor: TorHelper
+    private var tor: TorHelper
     
     @Published public var state = TorState.none
     
@@ -14,11 +14,26 @@ public class SwiftTor: ObservableObject {
         }
     }
     
+    func runAfterConnection(runAfterConnection: @escaping () -> ()) {
+        if self.tor.state == .connected {
+            runAfterConnection()
+        }else {
+            Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { timer in
+                if self.tor.state == .connected {
+                    runAfterConnection()
+                    timer.invalidate()
+                }
+            }
+        }
+    }
+    
     enum TorError: Error {
         case notConnected
     }
     
     public func restart() {
+        self.state = .none
+        self.tor = TorHelper()
         tor.start(delegate: nil)
     }
     
