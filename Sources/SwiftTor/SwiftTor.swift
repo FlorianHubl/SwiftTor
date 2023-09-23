@@ -4,18 +4,14 @@ import Tor
 public class SwiftTor: ObservableObject {
     private let tor: TorHelper
     
-//    @Published public var state = TorState.none
-    
-    public var state: TorState {
-        tor.state
-    }
+    @Published public var state = TorState.none
     
     public init() {
         self.tor = TorHelper()
         tor.start(delegate: nil)
-//        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { _ in
-//            self.state = self.tor.state
-//        }
+        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { _ in
+            self.state = self.tor.state
+        }
     }
     
     enum TorError: Error {
