@@ -14,7 +14,7 @@ public class SwiftTor: ObservableObject {
         }
     }
     
-    func runAfterConnection(runAfterConnection: @escaping () -> ()) {
+    public func runAfterConnection(runAfterConnection: @escaping () -> ()) {
         if self.tor.state == .connected {
             runAfterConnection()
         }else {
