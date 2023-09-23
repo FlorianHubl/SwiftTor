@@ -4,6 +4,12 @@ Create a URLSession through Tor and access .onion websites. This Swift Package i
 
 <img src="https://github.com/FlorianHubl/SwiftTor/blob/main/SwiftTor.png" width="173" height="173">
 
+### Allow Tor connections
+
+To allow tor connections please enable the arbitrary loads in the app transport security settings.
+
+<img src="https://github.com/FlorianHubl/SwiftTor/blob/main/allow.png" width="173">
+
 ## Documentation
 
 ### Create a instance
