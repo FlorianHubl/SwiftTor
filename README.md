@@ -28,5 +28,52 @@ if tor.state == .connected {
 let onionAddress = "http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/api/v1/fees/recommended"
 let url = URL(string: onionAddress)!
 let request = URLRequest(url: url)
-let a = try! await tor.request(request: request)
+let result = try! await tor.request(request: request)
 ```
+### Example in SwiftUI
+
+```swift
+import SwiftUI
+import SwiftTor
+
+struct ContentView: View {
+    
+    @StateObject var tor = SwiftTor()
+    
+    @State private var text = ""
+    
+    @State private var time = 0.0
+    
+    @State private var requesting = false
+    
+    var body: some View {
+        VStack {
+            Text("Time: \(time) seconds")
+            Text(text)
+            Text(tor.state == .connected ? "Tor Connected" : "Tor not connected")
+                .foregroundColor(tor.state == .connected ? .green : .red)
+            Button("Tor Request", action: request)
+        }
+    }
+    
+    func request() {
+        guard tor.state == .connected else {return}
+        guard self.requesting == false else {return}
+        self.text = ""
+        self.requesting = true
+        self.time = 0.0
+        Task {
+            let time1 = Date().timeIntervalSince1970
+            let onionAddress = "http://mempoolhqx4isw62xs7abwphsq7ldayuidyx2v2oethdhhj6mlo2r6ad.onion/api/v1/fees/recommended"
+            let url = URL(string: onionAddress)!
+            let request = URLRequest(url: url)
+            let result = try! await tor.request(request: request)
+            let time2 = Date().timeIntervalSince1970
+            self.time = time2 - time1
+            text = String(data: result.0, encoding: .utf8)!
+            self.requesting = false
+        }
+    }
+}
+```
+
