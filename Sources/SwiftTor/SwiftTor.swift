@@ -14,21 +14,8 @@ public class SwiftTor: ObservableObject {
         }
     }
     
-    public func runAfterConnection(runAfterConnection: @escaping () -> ()) {
-        if self.tor.state == .connected {
-            runAfterConnection()
-        }else {
-            Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { timer in
-                if self.tor.state == .connected {
-                    runAfterConnection()
-                    timer.invalidate()
-                }
-            }
-        }
-    }
-    
     enum TorError: Error {
-        case notConnected
+        case notConnectedTimeout
     }
     
     public func restart() {
@@ -37,11 +24,20 @@ public class SwiftTor: ObservableObject {
         tor.start(delegate: nil)
     }
     
-    public func request(request: URLRequest) async throws -> (Data, URLResponse) {
+    private func doRequest(request: URLRequest, index: Int) async throws -> (Data, URLResponse) {
         if self.tor.state == .connected {
-            return try! await tor.session.data(for: request)
+            return try await tor.session.data(for: request)
         }else {
-            throw TorError.notConnected
+            if index < 21 {
+                try await Task.sleep(nanoseconds: 1000000000)
+                return try await doRequest(request: request, index: index + 1)
+            }else {
+                throw TorError.notConnectedTimeout
+            }
         }
+    }
+    
+    public func request(request: URLRequest) async throws -> (Data, URLResponse) {
+        try await doRequest(request: request, index: 1)
     }
 }
