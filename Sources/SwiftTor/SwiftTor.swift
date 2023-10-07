@@ -24,6 +24,10 @@ public class SwiftTor: ObservableObject {
         tor.start(delegate: nil)
     }
     
+    public var session: URLSession {
+        tor.session
+    }
+    
     private func doRequest(request: URLRequest, index: Int) async throws -> (Data, URLResponse) {
         if self.tor.state == .connected {
             return try await tor.session.data(for: request)
