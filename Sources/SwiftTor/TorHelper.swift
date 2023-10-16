@@ -16,7 +16,7 @@ public enum TorState {
     case refreshing
 }
 
-@available(iOS 13.0, *)
+@available(iOS 13.0, macOS 10.15, *)
 class TorHelper: NSObject, URLSessionDelegate, ObservableObject {
     
     @Published public var state: TorState = .none

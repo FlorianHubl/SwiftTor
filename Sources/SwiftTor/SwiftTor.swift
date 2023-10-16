@@ -1,6 +1,6 @@
 import Tor
 
-@available(iOS 13.0, *)
+@available(iOS 13.0, macOS 10.15, *)
 public class SwiftTor: ObservableObject {
     private var tor: TorHelper
     

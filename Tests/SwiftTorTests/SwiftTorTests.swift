@@ -2,7 +2,7 @@ import XCTest
 @testable import SwiftTor
 
 final class SwiftTorTests: XCTestCase {
-    @available(iOS 16.0.0, *)
+    @available(iOS 16.0.0, macOS 10.15, *)
     func test() async throws {
         let tor = SwiftTor()
         let request = URLRequest(url: URL(string: "https://check.torproject.org")!)
@@ -16,5 +16,3 @@ final class SwiftTorTests: XCTestCase {
         }
     }
 }
-
-
