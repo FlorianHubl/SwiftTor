@@ -36,6 +36,16 @@ let url = URL(string: onionAddress)!
 let request = URLRequest(url: url)
 let result = try! await tor.request(request: request)
 ```
+
+### Tor Hidden Service
+```swift
+let tor = SwiftTor(hiddenServicePort: 80)
+Timer.scheduledTimer(withTimeInterval: 3.7, repeats: false) { _ in
+    print(tor.onionAddress ?? "No onion address")
+}
+```
+
+
 ### Example in SwiftUI
 
 ```swift

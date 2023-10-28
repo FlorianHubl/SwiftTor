@@ -4,15 +4,12 @@ import XCTest
 final class SwiftTorTests: XCTestCase {
     @available(iOS 16.0.0, macOS 10.15, *)
     func test() async throws {
-        let tor = SwiftTor()
+        let tor = SwiftTor(hiddenServicePort: 80)
         let request = URLRequest(url: URL(string: "https://check.torproject.org")!)
-        try await Task.sleep(for: .seconds(7))
-        if tor.state == .connected {
-            print("Tor Connected")
-            let a = try await tor.request(request: request).0
-            print(String(data: a, encoding: .utf8)!)
-        }else {
-            print("Tor not Connected")
+        let a = try await tor.request(request: request).0
+        print(String(data: a, encoding: .utf8)!)
+        Timer.scheduledTimer(withTimeInterval: 3.7, repeats: false) { _ in
+            print(tor.onionAddress ?? "No onion address")
         }
     }
 }

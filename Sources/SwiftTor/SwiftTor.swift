@@ -1,18 +1,26 @@
 import Tor
 
-@available(iOS 13.0, macOS 10.15, *)
+@available(iOS 13.0, macOS 13, *)
 public class SwiftTor: ObservableObject {
     private var tor: TorHelper
     
     @Published public var state = TorState.none
     
-    public init() {
+    public init(hiddenServicePort: Int? = nil) {
         self.tor = TorHelper()
+        self.tor.hiddenServicePort = hiddenServicePort
         tor.start(delegate: nil)
         Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { _ in
             self.state = self.tor.state
         }
+        if hiddenServicePort != nil {
+            Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
+                self.onionAddress = self.tor.onionAddress
+            }
+        }
     }
+    
+    @Published public var onionAddress: String? = nil
     
     enum TorError: Error {
         case notConnectedTimeout
