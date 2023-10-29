@@ -10,6 +10,8 @@ To allow tor connections please enable the arbitrary loads in the app transport 
 
 <img src="https://github.com/FlorianHubl/SwiftTor/blob/main/allow.png" width="173">
 
+SwiftTor is currently only available on iOS.
+
 ## Documentation
 
 ### Create a instance
@@ -92,4 +94,3 @@ struct ContentView: View {
     }
 }
 ```
-
