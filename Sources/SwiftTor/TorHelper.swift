@@ -17,7 +17,7 @@ public enum TorState: String {
 }
 
 @available(iOS 13.0, macOS 13, *)
-class TorHelper: NSObject, URLSessionDelegate, ObservableObject {
+public class TorHelper: NSObject, URLSessionDelegate, ObservableObject {
     
     @Published public var state: TorState = .none
     public var cert: Data?
@@ -220,7 +220,7 @@ HiddenServicePort 80 127.0.0.1:\(port)
     }
     
     
-    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         guard let trust = challenge.protectionSpace.serverTrust else {
             return
         }
@@ -243,7 +243,7 @@ HiddenServicePort 80 127.0.0.1:\(port)
         }
     }
     
-    func resign() {
+    public func resign() {
         controller?.disconnect()
         controller = nil
         thread?.cancel()

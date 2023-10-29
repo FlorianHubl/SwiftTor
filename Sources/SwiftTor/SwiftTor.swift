@@ -2,7 +2,7 @@ import Tor
 
 @available(iOS 13.0, macOS 13, *)
 public class SwiftTor: ObservableObject {
-    private var tor: TorHelper
+    public var tor: TorHelper
     
     @Published public var state = TorState.none
     
@@ -28,6 +28,7 @@ public class SwiftTor: ObservableObject {
     
     public func restart() {
         self.state = .none
+        self.tor.resign()
         self.tor = TorHelper()
         tor.start(delegate: nil)
     }
