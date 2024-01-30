@@ -6,7 +6,7 @@ public class SwiftTor: ObservableObject {
     
     @Published public var state = TorState.none
     
-    public init(hiddenServicePort: Int? = nil, start: Bool = false) {
+    public init(hiddenServicePort: Int? = nil, start: Bool = true) {
         self.tor = TorHelper()
         self.tor.hiddenServicePort = hiddenServicePort
         if start {
