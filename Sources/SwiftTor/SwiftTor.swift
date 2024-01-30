@@ -6,10 +6,12 @@ public class SwiftTor: ObservableObject {
     
     @Published public var state = TorState.none
     
-    public init(hiddenServicePort: Int? = nil) {
+    public init(hiddenServicePort: Int? = nil, start: Bool = false) {
         self.tor = TorHelper()
         self.tor.hiddenServicePort = hiddenServicePort
-        tor.start(delegate: nil)
+        if start {
+            tor.start(delegate: nil)
+        }
         Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { _ in
             self.state = self.tor.state
         }
@@ -18,6 +20,10 @@ public class SwiftTor: ObservableObject {
                 self.onionAddress = self.tor.onionAddress
             }
         }
+    }
+    
+    public func start() {
+        tor.start(delegate: nil)
     }
     
     @Published public var onionAddress: String? = nil
