@@ -10,7 +10,13 @@ To allow tor connections please enable the arbitrary loads in the app transport 
 
 <img src="https://github.com/FlorianHubl/SwiftTor/blob/main/allow.png" width="173">
 
-SwiftTor is currently only available on iOS.
+SwiftTor is available for iOS and macOS.
+
+### macOS
+
+If you use SwiftTor on macOS make sure you activate incoming and outgoing Connections.
+
+<img src="https://github.com/FlorianHubl/SwiftTor/blob/main/allow2.png" width="173">
 
 ## Documentation
 
