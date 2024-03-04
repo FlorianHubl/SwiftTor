@@ -10,7 +10,7 @@ public class SwiftTor: ObservableObject {
         self.tor = TorHelper()
         self.tor.hiddenServicePort = hiddenServicePort
         if start {
-            tor.start(delegate: nil)
+            self.start()
         }
         Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { _ in
             self.state = self.tor.state
@@ -22,8 +22,13 @@ public class SwiftTor: ObservableObject {
         }
     }
     
+    public var started = false
+    
     public func start() {
-        tor.start(delegate: nil)
+        if started == false {
+            tor.start(delegate: nil)
+            started = true
+        }
     }
     
     @Published public var onionAddress: String? = nil
@@ -39,7 +44,7 @@ public class SwiftTor: ObservableObject {
         tor.start(delegate: nil)
     }
     
-    public var session: URLSession {
+    private var session: URLSession {
         tor.session
     }
     
@@ -47,6 +52,9 @@ public class SwiftTor: ObservableObject {
         if self.tor.state == .connected {
             return try await tor.session.data(for: request)
         }else {
+            if started == false {
+                self.start()
+            }
             if index < 21 {
                 try await Task.sleep(nanoseconds: 1000000000)
                 return try await doRequest(request: request, index: index + 1)
